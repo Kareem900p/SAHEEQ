@@ -293,7 +293,7 @@ export const ThankYouPage: React.FC<ThankYouPageProps> = ({
     }
   };
 
-  const orderDateFormatted = new Date(order.confirmedAtIso || Date.now()).toLocaleDateString(
+  const orderDateFormatted = new Date(order.createdAtIso || Date.now()).toLocaleDateString(
     isEn ? 'en-EG' : 'ar-EG',
     { year: 'numeric', month: 'short', day: 'numeric' }
   );

@@ -13,9 +13,11 @@ export type ConversionEventName =
   | 'remove_from_cart'
   | 'view_cart'
   | 'begin_checkout'
+  | 'purchase'
   | 'newsletter_signup'
   | 'faq_expand'
-  | 'comparison_cta_click';
+  | 'comparison_cta_click'
+  | 'how_it_works_cta_click';
 
 export interface ConversionEventRecord {
   id: string;

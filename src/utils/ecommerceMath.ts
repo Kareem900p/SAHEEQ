@@ -49,8 +49,9 @@ export interface CartItemInput {
 export interface CartItemDetailed extends CartItemInput {
   lineId: string;
   packageNameAr: string;
-  packageNameEn?: string;
+  packageNameEn: string;
   variantNameAr: string;
+  variantNameEn: string;
   colorHex: string;
   packsCount: number;
   stripsPerUnit: number;
@@ -370,6 +371,7 @@ export function calculateCartSummary(
       packageNameAr: resolved.packageNameAr,
       packageNameEn: resolved.packageNameEn,
       variantNameAr: variant.nameAr,
+      variantNameEn: variant.nameEn,
       colorHex: variant.colorHex,
       stripsPerUnit: 30,
       totalStrips: resolved.totalStrips,

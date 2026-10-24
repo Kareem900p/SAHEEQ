@@ -228,7 +228,6 @@ const StepTechnicalIllustration: React.FC<{
 }> = ({ stepId, isEn }) => {
   return (
     <svg
-      dir="ltr"
       viewBox="0 0 320 198"
       className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
       role="img"
