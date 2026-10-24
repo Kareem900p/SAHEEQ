@@ -1,0 +1,991 @@
+# MASTER PROMPT — PRODUCT DATA MIGRATION & HIGH-CONVERSION PDP REBUILD
+
+## Magnetic Nasal Dilator | Reference-Driven E-commerce Reconstruction
+
+**MODE:** Inspect → Extract → Map → Rewrite → Implement → Validate
+
+**PRIMARY OBJECTIVE:** Rebuild the existing product page using the same structural, visual, and conversion-oriented design principles as the reference product page, while preserving the actual product information, business data, and brand assets belonging to the existing store.
+
+The final output must be a fully implemented product page, not just a design specification.
+
+---
+
+# 01. SOURCE URLS AND THEIR ROLES
+
+## SOURCE A — DESIGN REFERENCE
+
+https://nafasnasaltape.com/ar/products/black-nafas-nasal-tape
+
+Use this page to analyze and reproduce the overall product-page architecture, including:
+
+- Announcement bar.
+- Navigation bar with a centered brand identity.
+- Product gallery and product information.
+- Pricing and package-selection area.
+- Product variants and quantity selector.
+- Primary purchase button.
+- Short product description.
+- Sequential visual benefits sections.
+- Social proof and customer-use imagery.
+- Comparison section.
+- Product variant or color showcase.
+- Customer reviews.
+- FAQ accordion.
+- Newsletter and footer.
+- Mobile-responsive behavior.
+- Interactive states, transitions, spacing, and typography hierarchy.
+
+The reference is the design and information-architecture model. Its commercial information is not the source of truth for the new product.
+
+## SOURCE B — EXISTING PRODUCT PAGE AND BUSINESS INFORMATION
+
+https://4yoou.myeasyorders.com/products/magnetic-nasal-dilator
+
+This is the primary source for the product-specific information that must be migrated.
+
+Extract the product name, prices, descriptions, product features, package contents, usage contexts, promotional statements, ordering details, and all other available product information.
+
+Read the actual page and inspect its images, underlying page structure, available product assets, and ordering flow. Do not rely exclusively on search snippets or a previously generated summary.
+
+## SOURCE C — EXISTING BRAND IDENTITY
+
+Use the user's actual brand assets, approved logo, brand colors, fonts, and brand name found in the project files or provided configuration.
+
+Do not replace the actual brand identity with the Nafas logo, name, or proprietary graphics.
+
+If multiple brand identities appear in the source gallery, determine which assets belong to the active brand before using them.
+
+---
+
+# 02. SOURCE-OF-TRUTH HIERARCHY
+
+Follow this hierarchy whenever information conflicts.
+
+1. Actual product and inventory configuration.
+2. Verified existing-store product data.
+3. Approved business policies and checkout configuration.
+4. User-provided brand assets and product documentation.
+5. Existing descriptive copy from the old page.
+6. The design reference's structural and visual patterns.
+7. Proposed new marketing copy, clearly distinguished from verified facts.
+
+The reference page determines where and how information is presented.
+
+The existing product page determines what is known about this product.
+
+The actual store configuration determines whether an item can be purchased, its current price, available options, shipping eligibility, and inventory status.
+
+Never overwrite a verified business rule merely to imitate the reference.
+
+---
+
+# 03. VERIFIED PRODUCT DATA — MASTER DATASET
+
+Use the following as the initial product-content dataset extracted from the existing page. Recheck every price and operational detail against the live store before publishing.
+
+## Product identity
+
+**Arabic product name:** موسّع الأنف المغناطيسي
+
+**Product category:** Magnetic nasal dilator.
+
+**Product use contexts described on the existing page:**
+- Sleep and nighttime nasal breathing.
+- Physical activity and sport.
+- Assistance with nasal airflow when experiencing mild nasal obstruction.
+
+These are the described use cases, not a claim that the device treats the underlying causes of any medical condition.
+
+## Pricing
+
+Observed existing-page values:
+
+- Current displayed price: 300 EGP.
+- Previous displayed price: 450 EGP.
+- Displayed discount: 33%.
+
+The discount calculation is:
+
+`discount = regular_price - sale_price`
+
+`discount_percentage = (discount / regular_price) × 100`
+
+For the observed values:
+
+- Absolute discount: 150 EGP.
+- Calculated discount: 33.33%, approximately 33%.
+
+Do not hard-code the displayed discount percentage independently of the actual pricing data.
+
+Do not use the reference brand's product prices.
+
+## Package information
+
+The old page describes the package as containing:
+
+- 30 magnetic adhesive tabs or patches.
+- Nasal clips available in different sizes or models.
+- A dedicated applicator and grip/tool intended to assist with fitting.
+
+The old page also states that the adhesive-tab quantity is sufficient for 30 days according to the recommended method of use.
+
+**Verification requirement:** Confirm the exact number of clips, their sizes, the exact components of the kit, and the intended replacement schedule against the actual product packaging or supplier documentation. Do not infer exact counts from inconsistent third-party gallery images.
+
+## Original promotional statements
+
+The existing page displays or describes these messages:
+
+- Help improve airflow through the nose.
+- Support more comfortable nasal breathing.
+- Use during sleep and physical activity.
+- A magnetic design combined with adhesive tabs and clips.
+- Multiple sizes or models to help achieve a suitable fit.
+- Compact construction and convenient storage.
+- Potential assistance in reducing snoring associated with resistance to nasal airflow.
+
+The source copy explicitly acknowledges that outcomes vary among individuals.
+
+## Health-claim restriction
+
+The old page includes a reference to an advertised 80% improvement in breathing, while also stating that the percentage requires reliable testing to substantiate it.
+
+Do not publish the 80% figure as a verified product result unless the user provides appropriate supporting evidence.
+
+The page also states that the device is not a treatment for sleep apnea or every cause of snoring and nasal congestion. Preserve this distinction in any relevant educational content.
+
+Do not promise a cure, guaranteed snoring elimination, guaranteed oxygen improvement, guaranteed athletic performance, or guaranteed results for every user.
+
+---
+
+# 04. COMPLETE CONTENT EXTRACTION
+
+Before modifying the product page, create a structured content inventory of all text available on the old page.
+
+Preserve the original text in an internal audit file, then prepare approved replacement copy for the redesigned page.
+
+The existing page contains the following major messaging units.
+
+## A. Product card and initial offer
+
+Original product title:
+
+"موسع الانف المغناطيسي"
+
+Observed price presentation:
+
+- 300 EGP.
+- 450 EGP previous price.
+- 33% discount indicator.
+
+Original short description:
+
+"بتعاني من انسداد الأنف والشخير أثناء النوم؟ جرّب موسع الأنف المغناطيسي لتحسين تدفق الهواء وتسهيل التنفس، للنوم وللرياضه.مع لواصق ومشابك متعددة لراحة وثبات أفضل."
+
+Original dynamic-looking statement:
+
+"يشاهد هذا المنتج الآن 20 عميل"
+
+Original purchase CTA:
+
+"اضغط هنا للشراء"
+
+Migration instructions:
+
+- Normalize Arabic spelling and punctuation.
+- Keep the correct product identity and verified prices.
+- Rewrite the short description for clarity and readability.
+- Do not display a live-viewer count unless it comes from a genuine, functioning real-time measurement.
+- Replace the generic purchase label with the most appropriate real purchase action supported by the store.
+- Preserve inventory and checkout behavior rather than creating a decorative purchase button.
+
+## B. Main product introduction
+
+Original headline:
+
+"بتعاني من انسداد الأنف أو الشخير أثناء النوم؟ جرّب موسّع الأنف المغناطيسي!"
+
+Original subheadline:
+
+"تنفّس براحة أكبر وخلي روتين نومك أسهل"
+
+Original supporting paragraph:
+
+"لو انسداد الأنف بيضايقك أثناء النوم أو بيأثر على راحتك وقت ممارسة الرياضة، موسّع الأنف المغناطيسي مصمم للمساعدة على توسيع فتحات الأنف وتحسين تدفق الهواء، من غير ما تحتاج تعتمد على لاصقات الأنف التقليدية وحدها."
+
+Approved rewrite direction:
+
+Retain the Egyptian Arabic voice, the nighttime and sports use contexts, and the product's intended function.
+
+Make the copy direct, natural, and easy to scan.
+
+Describe the product as a device designed to help improve nasal airflow, without claiming that it cures congestion or treats every cause of snoring.
+
+## C. Product benefits
+
+Original section heading:
+
+"إيه اللي يميّز موسّع الأنف المغناطيسي؟"
+
+### Benefit 1
+
+Original heading:
+
+"المساعدة على تحسين التنفس الأنفي"
+
+Original explanation:
+
+"تصميم يساعد على توسيع منطقة فتحات الأنف لتحسين مرور الهواء، خصوصًا لو بتعاني من ضيق بسيط في الممرات الأنفية."
+
+### Benefit 2
+
+Original heading:
+
+"راحة أكبر أثناء النوم"
+
+Original explanation:
+
+"ممكن يساعد في تقليل الشخير المرتبط بمقاومة مرور الهواء عبر الأنف، لكن النتيجة بتختلف من شخص للتاني، ومش بيعالج كل أسباب الشخير."
+
+### Benefit 3
+
+Original heading:
+
+"تصميم خفيف وسهل الاستخدام"
+
+Original explanation:
+
+"مكونات صغيرة مصممة لتناسب الأنف، مع مشابك ولواصق مخصصة للمساعدة على تثبيت الجهاز."
+
+Migration instructions:
+
+- Preserve the three distinct benefit themes.
+- Rewrite the headlines and descriptions for consistency.
+- Do not make all three sections say the same thing.
+- Associate each benefit with an appropriate, authentic product image.
+- Preserve the distinction between product function and guaranteed results.
+
+## D. Daily-use section
+
+Original heading:
+
+"مناسب لروتينك اليومي"
+
+Original supporting copy:
+
+"سواء كنت بتجهز للنوم أو بتدور على وسيلة مساعدة للتنفس من الأنف أثناء النشاط البدني، تقدر تستخدمه حسب تعليمات المنتج ومدى ملاءمته ليك."
+
+The page presents three contextual use cases:
+
+1. Before sleep: assistance with nasal airflow.
+2. During sport: an aid for people who benefit from nasal dilation.
+3. Mild nasal obstruction: possible assistance with airflow, not a replacement for treating the underlying cause.
+
+Migration instructions:
+
+Turn these into a visually distinct section with three modules, cards, or another composition matching the reference's visual rhythm.
+
+Do not imply that every user experiences the same benefit in every scenario.
+
+## E. Package contents
+
+Original heading:
+
+"إيه الموجود في العبوة؟"
+
+### Item 1
+
+Original item name:
+
+"30 قطعة من اللواصق المغناطيسية"
+
+Original description:
+
+"كمية تكفي 30 يومًا وفقًا لطريقة الاستخدام الموصى بها."
+
+### Item 2
+
+Original item name:
+
+"مشابك أنفية بمقاسات وموديلات مختلفة"
+
+Original description:
+
+"عشان تقدر تختار المقاس والتصميم الأنسب لشكل أنفك."
+
+### Item 3
+
+Original item name:
+
+"أداة تثبيت ومقبض مخصص"
+
+Original description:
+
+"للمساعدة على تركيب الجهاز وضبطه بسهولة."
+
+Migration instructions:
+
+Turn these into a package-contents visual section with three clearly separated components.
+
+Use actual images of the contents.
+
+Where exact quantities or product configurations are unconfirmed, do not supply a more specific statement than the source supports.
+
+Do not substitute unrelated images from another brand.
+
+## F. Reasons to choose the product
+
+Original section heading:
+
+"ليه ممكن تختاره بدلًا من الحلول التقليدية؟"
+
+Original points:
+
+1. "تصميم مغناطيسي مع لواصق ومشابك مخصصة."
+2. "إمكانية تجربة مقاسات مختلفة للوصول لملاءمة أفضل."
+3. "صغير وسهل الحمل والتخزين."
+4. "مناسب لمن يبحث عن وسيلة مساعدة لتحسين التنفس الأنفي."
+
+Migration instructions:
+
+Preserve the four separate value propositions.
+
+Use a visual structure comparable to the reference's comparison or value-proposition section.
+
+Do not transform these points into unsupported claims that the product is safer, more effective, more durable, more comfortable, or medically superior to every competing solution.
+
+## G. Safety and evidence notice
+
+The old page explicitly warns that the 80% improvement figure requires reliable testing.
+
+It also explains that the device is not a treatment for sleep apnea or all causes of snoring and congestion, and recommends medical consultation for severe snoring or snoring associated with breathing interruptions.
+
+Migration instructions:
+
+Retain the substantive limitation in appropriate educational content and the relevant FAQ answers.
+
+Do not turn the warning into a prominent fear-based sales message. Keep it readable, proportionate, and easy to find.
+
+## H. Closing sales section
+
+Original heading:
+
+"ابدأ خطوة بسيطة نحو نوم أكثر راحة"
+
+Original paragraph:
+
+"لو بتدور على وسيلة مساعدة لتوسيع فتحات الأنف وتحسين مرور الهواء، موسّع الأنف المغناطيسي ممكن يكون اختيارًا يستحق التجربة بعد التأكد من المقاس وطريقة الاستخدام المناسبة ليك."
+
+Original order heading:
+
+"اطلب طقم موسّع الأنف المغناطيسي الآن"
+
+Original supporting line:
+
+"طقم متكامل بمشابك ولواصق وأداة تثبيت، لتختار الأنسب لاحتياجك."
+
+Migration instructions:
+
+Transform this into a visually strong closing purchase section.
+
+Keep the actual product name, offer, and package contents consistent with the product information at the top.
+
+Do not present this section as a second, different product offer.
+
+## I. Existing order-summary fields
+
+The old page displays:
+
+- "يرجى ادخال معلوماتك لإكمال الطلب"
+- "عدد القطع"
+- Quantity: 1
+- "اجمالي المنتجات"
+- Product total: 300 ج.م
+- "تكلفة الشحن"
+- Shipping: شحن مجاني
+- "الاجمالي"
+- Order total: 300 ج.م
+- "اضغط هنا للشراء"
+
+Migration instructions:
+
+These are observations from the existing order form, not proof that every possible order qualifies for free delivery.
+
+Inspect the actual checkout and shipping configuration before migrating the policy to the new page.
+
+The product page currently shows free shipping for the observed 300 EGP order. Do not automatically replace this with the design reference's 1,000 EGP threshold, and do not claim universal free shipping without confirming the actual business rule.
+
+Build a functional purchase summary that recalculates from the live product, quantity, discount, taxes if applicable, and shipping configuration.
+
+## J. Existing navigation and lower-page labels
+
+The extracted page contains references to:
+
+- "منتجات طبية ورياضية"
+- "منتجات مشابهة"
+- "الأقسام"
+- "الصفحات"
+
+Use these as evidence that product categorization and related-product/navigation areas may be relevant.
+
+Do not invent actual destination URLs.
+
+Use existing, valid store routes. Do not display placeholder headings without meaningful destinations or content.
+
+---
+
+# 05. INFORMATION MIGRATION MAP
+
+Map each existing content block to the appropriate section in the reference architecture.
+
+The mapping is mandatory.
+
+| Existing product information | Destination in redesigned page |
+|---|---|
+| Product name | Product hero and metadata |
+| Current and previous price | Price display |
+| Discount | Dynamic discount badge |
+| Short introductory paragraph | Product hero description |
+| Actual product images | Main gallery and thumbnails |
+| Package components | Package contents section |
+| Nasal airflow benefit | First benefit module |
+| Sleep and snoring context | Second benefit module |
+| Lightweight design and fit | Third benefit module |
+| Sleep and sports use | Daily-use modules |
+| Product sizing information | Fit/variant section, once verified |
+| Magnetic design and portability | Why choose this product section |
+| Actual product limitations | Product FAQ and safety information |
+| Verified customer material | Social proof and reviews, if available |
+| Verified competitor data | Comparison table, if available |
+| Existing shipping configuration | Shipping message and cart |
+| Product pricing and inventory | Purchase logic and order summary |
+| Valid navigation routes | Header and footer |
+| Existing related products | Related-products section |
+| Confirmed return and delivery policies | FAQ and footer |
+| Real contact information | Footer and customer support |
+
+Never put a paragraph in a section simply because that section needs text. Determine the information's intended function first.
+
+---
+
+# 06. REBUILD THE REFERENCE PRODUCT HERO
+
+Use the reference's two-column product-detail architecture, with the correct RTL adaptation.
+
+## Left/right composition
+
+Match the observed reference arrangement, including the large primary product image, smaller image thumbnails, product name, pricing, package details, and primary action.
+
+Do not assume that the reference's exact colors or product assets should carry over.
+
+Use the active brand's identity.
+
+## Product gallery
+
+Use the authentic product images belonging to the actual item.
+
+Inspect all images to identify:
+
+- Front and rear views.
+- Magnetic clips.
+- Adhesive tabs.
+- Applicator/tool.
+- Package contents.
+- Product-in-use photos.
+- Instructional images.
+- Verified size differences.
+
+The existing page's extracted gallery references images from multiple apparent product identities. Do not carry all those images into production indiscriminately.
+
+Determine which images genuinely represent the item sold by this store and which the store is entitled to use.
+
+Implement:
+
+- Click-to-select thumbnails.
+- Active-thumbnail indicator.
+- Smooth primary-image transition.
+- Appropriate zoom or full-image view.
+- Correct mobile touch behavior.
+- Product-image changes when verified variants change.
+
+## Price display
+
+Present the current price, previous price, and calculated saving.
+
+Only display the crossed-out price if 450 EGP remains a valid reference price according to the store's pricing policy.
+
+Use one authoritative product-price source.
+
+## Package selection
+
+The currently observed product offer is a single product purchase at 300 EGP.
+
+Do not create 30/60/90-piece commercial packages by copying the reference's offer structure.
+
+The existing product's 30 adhesive tabs are the stated contents of one kit, not evidence that three separately priced kit sizes exist.
+
+If the store supports multiple kits, build configurable bundle cards using actual bundle identifiers, inventory, prices, and order logic. Otherwise, retain one accurately described kit and focus on price clarity, contents, fit information, and purchase confidence.
+
+## Quantity and CTA
+
+The main purchase button must add the correct product and quantity to the actual basket or order flow.
+
+Support real inventory states.
+
+Do not leave buttons that merely change color or show a decorative confirmation.
+
+When the item is unavailable, show the appropriate unavailable state.
+
+When an option is invalid, explain what must be selected.
+
+---
+
+# 07. REBUILD THE BENEFIT AND CONTENT SECTIONS
+
+Use the reference's long-form, sequential content architecture.
+
+Preserve the following conceptual sequence:
+
+1. Core product promise.
+2. Main product benefits.
+3. Sleep and sports use contexts.
+4. Package contents.
+5. Why this product may suit the customer.
+6. Social proof or an evidence-backed alternative.
+7. Comparison or structured value explanation.
+8. Product variants or a package-detail showcase.
+9. Customer reviews or verified customer information.
+10. FAQ.
+11. Final purchase reinforcement.
+12. Footer.
+
+Use the exact product facts mapped above.
+
+Each section should have its own visual purpose and avoid repetitive paragraphs.
+
+Use short Egyptian Arabic headings, concise supporting copy, authentic product imagery, and clear visual separation between sections.
+
+If a reference section assumes information that does not exist for this product, preserve its structural purpose but use an evidence-backed alternative.
+
+Examples:
+
+- If real athlete endorsements do not exist, use a product demonstration or an accurate daily-use gallery without implying endorsement.
+- If genuine customer reviews do not exist, do not fabricate them.
+- If competitor data is unavailable, use a feature matrix showing verified product characteristics rather than invented competitor comparisons.
+- If there are no verified color variants, use a package-contents showcase instead of inventing color choices.
+
+The page must not look incomplete, but it must remain truthful.
+
+---
+
+# 08. COMPARISON SECTION
+
+The design reference contains a comparative product table.
+
+The existing product page does not provide a complete, verified competitor-comparison dataset.
+
+Build the comparison section only from available evidence.
+
+Use verified dimensions such as:
+
+- Product mechanism.
+- Components supplied.
+- Fit options.
+- Reusability, if confirmed.
+- Intended use contexts.
+- Maintenance or replacement requirements.
+- Cost per use, if all required pricing and lifespan inputs are confirmed.
+
+Do not state that all conventional nasal strips are inferior.
+
+Do not claim superior performance or safety without reliable comparative evidence.
+
+For any unknown attribute, use "غير متاح" or omit the claim as appropriate.
+
+On mobile, ensure the table is readable and does not introduce unintended page-wide horizontal overflow.
+
+The CTA immediately after the comparison must lead to the correct purchase section and preserve any valid selected product state.
+
+---
+
+# 09. VARIANTS AND PACKAGE SHOWCASE
+
+The existing copy mentions multiple sizes or models, but does not conclusively establish every model, the precise size measurements, or every available color.
+
+Before exposing variants, confirm:
+
+- Actual available options.
+- Corresponding SKU or variant identifiers.
+- Exact supplied components.
+- Current prices.
+- Inventory.
+- Whether the selection changes product images.
+
+If the product comes in a single kit with multiple included sizes, explain that the sizes are components of the kit rather than individual colors or separately selectable products.
+
+If the active product has verified black and white variants, display them with their correct imagery and SKU relationships.
+
+Do not infer a saleable color variant from an inconsistent image alone.
+
+---
+
+# 10. SOCIAL PROOF AND CUSTOMER REVIEWS
+
+The old page extraction does not provide a verified set of customer reviews or athlete endorsements.
+
+Do not manufacture:
+
+- Customer names.
+- Star ratings.
+- Testimonials.
+- Before-and-after stories.
+- Influencer endorsements.
+- Review dates.
+- Verified-purchase badges.
+- Claims that a specified number of people have purchased the item.
+
+The old page's "20 customers viewing now" statement must not be treated as verified live data.
+
+Use actual social proof only when supplied by the user or retrieved from a reliable, authorized source.
+
+If social proof is unavailable, create a structurally appropriate alternative using authentic product demonstration images, clear component information, verified usage instructions, and transparent product limitations.
+
+Never label this alternative as a customer testimonial section.
+
+---
+
+# 11. CREATE AN ACCURATE FAQ
+
+The existing page does not contain a clearly extracted, complete FAQ accordion.
+
+Create a new FAQ using verified facts from the existing product information and approved operational policies.
+
+Use the reference's accordion design and visual hierarchy.
+
+Prepare the following questions, subject to data verification:
+
+### Product and contents
+
+**What is a magnetic nasal dilator?**
+
+Explain that the product is intended to help support airflow through the nose. Do not describe it as a cure for nasal obstruction or sleep disorders.
+
+**What comes in the package?**
+
+State that the existing description lists 30 adhesive tabs, nasal clips in different sizes or models, and an applicator/tool. Confirm the exact physical quantities before publishing.
+
+**How long does one package last?**
+
+The existing page states that the 30 adhesive tabs are sufficient for 30 days according to the recommended use instructions. Verify the real instructions and replacement schedule before treating this as a guaranteed duration.
+
+**Are different sizes available?**
+
+State only the fit options confirmed by the actual kit and its packaging.
+
+**How should the product be used?**
+
+Use the manufacturer's actual instructions. Do not invent a detailed application procedure if the approved instructions are unavailable.
+
+### Use and limitations
+
+**Can it be used during sleep or exercise?**
+
+Explain that the existing product page describes both as intended use contexts. Clarify that suitability and outcomes may vary.
+
+**Will it completely stop snoring?**
+
+No such guarantee should be made. The existing page states that it may help with snoring related to resistance to nasal airflow, but not all causes of snoring.
+
+**Does it treat sleep apnea?**
+
+No. Preserve the clear distinction between an external nasal dilator and medical treatment for sleep apnea. Encourage medical evaluation when symptoms warrant it.
+
+**Does it improve breathing by 80%?**
+
+Do not advertise this percentage unless reliable evidence substantiates it. Do not guarantee a specific outcome for every user.
+
+### Order information
+
+**What is the current price?**
+
+Use the live price, with the previous price and discount only when valid.
+
+**Is shipping free?**
+
+Read the actual shipping configuration. The old form displayed free shipping for the observed 300 EGP order, but this alone is not sufficient to establish every order's shipping policy.
+
+**How long does delivery take?**
+
+Answer only when the actual service-level estimate is available.
+
+**Can the order be returned?**
+
+Use the approved return policy. Do not invent a return window or guarantee.
+
+**What payment methods are available?**
+
+Use the currently supported checkout methods.
+
+Any unanswered policy question must be recorded in a `FAQ_NEEDS_VERIFICATION` list instead of receiving an invented answer.
+
+---
+
+# 12. SHIPPING, CART, AND COMMERCIAL LOGIC
+
+The old form displays a product total of 300 EGP, free shipping, and an order total of 300 EGP.
+
+Treat these as observed checkout values rather than permission to hard-code free shipping for every future transaction.
+
+Inspect the actual shipping rules before implementing the new banner, package offer, or checkout summary.
+
+Do not automatically copy the reference's 1,000 EGP free-shipping threshold.
+
+Do not automatically carry the old free-shipping message into the new site if the approved shipping configuration differs.
+
+Once verified, use one consistent shipping rule across:
+
+- Announcement bar.
+- Product page.
+- Bundle selector.
+- Cart drawer.
+- Order summary.
+- Checkout.
+
+Calculate totals from the actual order state.
+
+Keep product totals, discounts, shipping, taxes if applicable, and final totals consistent throughout the purchase journey.
+
+---
+
+# 13. ANNOUNCEMENT BAR AND NAVIGATION
+
+Match the reference's announcement-and-navigation structure using the active brand identity.
+
+The announcement should communicate the verified shipping offer or another approved current benefit.
+
+Do not advertise a shipping threshold or promotion that the checkout system does not enforce.
+
+Use existing valid routes for product categories and additional pages.
+
+The old page identifies the category "منتجات طبية ورياضية" and contains generic links for similar products, categories, and pages. Inspect the actual store to find valid destinations before inserting these links into the new navigation.
+
+On desktop, preserve the reference's visual balance with the brand mark centered when the inspected layout supports that arrangement.
+
+On mobile, adapt the layout without overlapping the logo, navigation, language control, or basket.
+
+---
+
+# 14. BRAND AND ASSET CONTROL
+
+Use the approved brand identity, not the reference brand's identity.
+
+Preserve:
+
+- Actual brand name.
+- Logo.
+- Brand colors.
+- Approved fonts.
+- Product photography.
+- Existing routes.
+- Correct product identity.
+
+Audit every asset before implementation.
+
+Do not use unrelated supplier or competitor images as if they were this product.
+
+If the existing page contains mixed imagery, create an asset manifest and record the intended usage and verification status for each image.
+
+Suggested output:
+
+`product-asset-audit.md`
+
+For each asset, record:
+
+- File path or URL.
+- Image description.
+- Product variant represented.
+- Brand identity appearing in the image.
+- Whether the image is authorized for use.
+- Whether it accurately represents the actual item.
+- Destination section in the new page.
+
+If no authentic asset is available for a particular section, do not use a misleading placeholder. Identify the missing asset and use a truthful alternative layout.
+
+---
+
+# 15. CONTENT AND DESIGN TOKENS
+
+Create a centralized design system from the active brand's approved configuration.
+
+Do not copy the reference's complete color palette or logo.
+
+Use the reference to reproduce its structure, whitespace, typography scale, card hierarchy, image sizing, spacing rhythm, and interactive states.
+
+Centralize:
+
+- Brand colors.
+- Typography.
+- Spacing.
+- Card radii.
+- Borders.
+- Shadows.
+- Transition durations.
+- Button states.
+- Container widths.
+- Responsive breakpoints.
+
+Use proper Arabic RTL behavior.
+
+Ensure that mixed Arabic and English product terms, numbers, and EGP prices remain readable.
+
+Do not apply unnecessary 3D effects or animations where they weaken the hierarchy or slow the purchase flow.
+
+---
+
+# 16. CONVERSION OPTIMIZATION REQUIREMENTS
+
+Optimize the new page for actual purchase clarity and lower friction.
+
+Prioritize:
+
+1. Instant product comprehension.
+2. Clear pricing and discount calculations.
+3. Accurate package contents.
+4. Clear explanation of size and fit.
+5. Authentic, relevant product imagery.
+6. A prominent functional purchase CTA.
+7. Correct shipping information.
+8. Transparent product limitations.
+9. Useful answers to purchase objections.
+10. Accessible mobile purchasing.
+
+Do not fabricate urgency, scarcity, sales volume, customer counts, or popularity.
+
+Do not claim that the page will achieve a specific conversion rate without measurement data.
+
+If analytics are available, track relevant events such as product views, variant selections, cart additions, checkout starts, and completed purchases.
+
+Distinguish clicks from successful purchases.
+
+---
+
+# 17. TECHNICAL IMPLEMENTATION
+
+Inspect the existing storefront and its technical constraints before editing.
+
+Determine whether the page must be implemented within the current MyeasyOrders environment or another existing platform.
+
+Do not assume that a standalone React page can replace a platform-managed product page without integration work.
+
+Preserve the store's actual routes, product identifiers, pricing, order flow, and inventory logic.
+
+Build reusable components for:
+
+- Announcement bar.
+- Header and navigation.
+- Product gallery.
+- Product details.
+- Price display.
+- Bundle or quantity selector.
+- Purchase CTA.
+- Benefit modules.
+- Package-contents showcase.
+- Social proof, when supported by real data.
+- Comparison section.
+- Customer reviews, when supported by real data.
+- FAQ accordion.
+- Newsletter and footer.
+- Cart or order summary.
+
+Use the existing stack where feasible.
+
+Do not create visual-only controls that do not perform the action they advertise.
+
+Test the implemented page at desktop, tablet, and mobile widths. Test the real interactions and verify console errors where the environment permits.
+
+---
+
+# 18. REQUIRED DELIVERABLES
+
+Complete the following outputs.
+
+### 1. `product-data-map.md`
+
+List every source field and its corresponding destination in the redesigned page.
+
+### 2. `product-copy-ar.md`
+
+Provide the final Arabic product copy for every section, including:
+
+- Product title.
+- Short description.
+- Headline and benefits.
+- Usage contexts.
+- Package contents.
+- Comparison/value section.
+- Purchase CTA.
+- FAQ.
+- Shipping and ordering messages.
+- Footer content where data exists.
+
+Distinguish approved facts from suggested copy.
+
+### 3. `product-asset-audit.md`
+
+Record available product images, authenticity, ownership/authorization status when known, and intended placement.
+
+### 4. `commercial-rules-audit.md`
+
+Document verified prices, discount rules, pack configuration, quantity rules, stock status, and shipping eligibility.
+
+### 5. `faq-needs-verification.md`
+
+List unanswered policy, sizing, usage, delivery, or return questions.
+
+### 6. Implemented product page
+
+Apply the design reference's structural model using the actual product information and brand identity.
+
+### 7. `qa-report.md`
+
+Document visual, functional, responsive, pricing, checkout, and content checks. Distinguish successful tests from tests that could not be run.
+
+---
+
+# 19. ACCEPTANCE CHECKLIST
+
+The work is complete only when:
+
+- [ ] The source page has been inspected directly.
+- [ ] Product information has been extracted and mapped.
+- [ ] Product identity is correct.
+- [ ] Pricing is accurate.
+- [ ] The 33% discount is recalculated from the actual current prices.
+- [ ] Package contents match the actual kit.
+- [ ] Product images accurately represent the item.
+- [ ] The design follows the reference's structural model.
+- [ ] The brand identity remains correct.
+- [ ] Shipping follows the real store configuration.
+- [ ] All purchase interactions work.
+- [ ] No unsupported bundle prices have been introduced.
+- [ ] No invented reviews or false customer counts appear.
+- [ ] Unverified medical claims are excluded or appropriately qualified.
+- [ ] FAQ responses come from verified information.
+- [ ] Links are valid.
+- [ ] RTL and responsive layouts have been tested.
+- [ ] QA results are documented.
+
+---
+
+# FINAL COMMAND
+
+Execute the full migration now.
+
+First inspect the reference page, the existing product page, the real storefront configuration, and the available brand assets.
+
+Then create the content inventory, map each product fact to the appropriate section, write the final Arabic copy, and implement the redesigned page within the actual platform and technical constraints.
+
+Do not stop at a general recommendation. Implement every feasible component and document any blocked integration or missing business data.
+
+Maintain the design reference's section sequence and visual logic as closely as practical, while preserving the identity of the active brand and the factual accuracy of the existing product.
+
+The target is a complete, production-oriented product page with correct commercial logic, authentic assets, clear messaging, functional purchasing, and a measurable foundation for conversion optimization.

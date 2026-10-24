@@ -1,0 +1,6 @@
+{
+  "name": "شهيق | SHAHEEQ — أشرطة الأنف الرياضية المتطورة",
+  "description": "أشرطة الأنف اللاصقة من شهيق (SHAHEEQ) بتقنية الرفع الميكانيكي المرن لتحسين تدفق الهواء، دعم التنفس الأنفي أثناء النوم، ورفع الأداء الرياضي بدون أدوية.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
