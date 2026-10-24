@@ -35,6 +35,7 @@ import {
   submitOrderToServer,
   type ConfirmedOrderRecord,
 } from '../utils/orderClient';
+import { trackConversionEvent } from '../utils/analytics';
 import type { GallerySlide } from '../data/brandConfig';
 import { BundleMiniPreview, GallerySlideVisual } from './ProductVisuals';
 
@@ -606,6 +607,11 @@ export const ProductHero: React.FC<ProductHeroProps> = ({
                 onClick={() => {
                   setDirectOrderSuccess(false);
                   setIsCheckoutModalOpen(true);
+                  trackConversionEvent('begin_checkout', {
+                    packageId: resolvedPricing.packageId,
+                    value: totalSalePrice,
+                    quantity,
+                  });
                 }}
                 disabled={isButtonDisabled}
                 data-testid="open-checkout-modal-btn"
