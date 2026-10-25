@@ -9,6 +9,9 @@ import {
   type CartItemInput,
 } from './ecommerceMath';
 
+export const DEFAULT_SHAHEEQ_APPS_SCRIPT_URL =
+  'https://script.google.com/macros/s/AKfycbzu7Xm8gGqCH0v9dsXqnKEARFQodYyh1MKtHZhzm3PmI7gB3GxcMlLVYNCA00Jq_SR5FQ/exec';
+
 export interface OrderCheckoutItemInput {
   packageId: string;
   variantId: string;

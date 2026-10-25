@@ -1,4 +1,5 @@
 import {
+  DEFAULT_SHAHEEQ_APPS_SCRIPT_URL,
   validateAndBuildOrderFields,
   generateServerOrderId,
   type OrderSubmissionRequest,
@@ -54,8 +55,39 @@ export function generateSubmissionId(): string {
 }
 
 /**
+ * Direct fallback sync to the SHAHEEQ Google Apps Script Web App using CORS-safe text/plain
+ * and the exact same `submission_id` (deduplicated by Apps Script) if `/api/orders` did not
+ * already confirm upstream persistence.
+ */
+async function syncDirectlyToAppsScript(
+  submissionId: string,
+  orderFields: AppsScriptOrderFields
+): Promise<boolean> {
+  try {
+    const response = await fetch(DEFAULT_SHAHEEQ_APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8',
+      },
+      body: JSON.stringify({
+        submission_id: submissionId,
+        order: orderFields,
+      }),
+      redirect: 'follow',
+    });
+
+    const data = await response.json().catch(() => null);
+    return Boolean(data && data.ok === true);
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Sends the checkout payload to our server-side endpoint (`POST /api/orders`),
  * which validates, recalculates totals, and forwards to Google Apps Script.
+ * If the server route is unreachable or did not confirm upstream Google Sheets sync,
+ * automatically performs a direct deduplicated sync to the Apps Script endpoint.
  */
 export async function submitOrderToServer(
   payload: OrderSubmissionRequest
@@ -74,6 +106,8 @@ export async function submitOrderToServer(
         localValidation.errorMessageEn || 'Please check your order details and try again.',
     };
   }
+
+  const shortOrderId = generateServerOrderId(localValidation.orderFields.customer_phone);
 
   try {
     const response = await fetch('/api/orders', {
@@ -117,13 +151,19 @@ export async function submitOrderToServer(
           ? data.total_strips
           : localValidation.totalStrips || 30;
 
+      // If server did not confirm upstream Google Sheets sync, sync directly with the same submission_id
+      let isSynced = data.apps_script_synced === true || data.data_status === 'complete';
+      if (!isSynced) {
+        isSynced = await syncDirectlyToAppsScript(localValidation.submissionId, orderFields);
+      }
+
       const confirmedOrder: ConfirmedOrderRecord = {
         orderId,
         submissionId: localValidation.submissionId,
         createdAtIso: new Date().toISOString(),
         checkoutSource: payload.checkout_source || 'direct_modal',
         duplicate: Boolean(data.duplicate),
-        dataStatus: typeof data.data_status === 'string' ? data.data_status : 'RECORDED',
+        dataStatus: isSynced ? 'complete' : typeof data.data_status === 'string' ? data.data_status : 'RECORDED',
         orderFields,
         itemsSummary,
         totalStrips,
@@ -146,15 +186,19 @@ export async function submitOrderToServer(
       };
     }
 
-    // Fallback if server returned non-400 upstream error: preserve validated customer order
-    const fallbackOrderId = generateServerOrderId(localValidation.submissionId);
+    // If /api/orders returned non-200 (e.g., 404/500 on static hosting), send directly to Apps Script
+    const syncedDirect = await syncDirectlyToAppsScript(
+      localValidation.submissionId,
+      localValidation.orderFields
+    );
+
     const confirmedOrder: ConfirmedOrderRecord = {
-      orderId: fallbackOrderId,
+      orderId: shortOrderId,
       submissionId: localValidation.submissionId,
       createdAtIso: new Date().toISOString(),
       checkoutSource: payload.checkout_source || 'direct_modal',
       duplicate: false,
-      dataStatus: 'RECORDED_FALLBACK',
+      dataStatus: syncedDirect ? 'complete' : 'RECORDED_FALLBACK',
       orderFields: localValidation.orderFields,
       itemsSummary: localValidation.itemsSummary || [],
       totalStrips: localValidation.totalStrips || 30,
@@ -163,9 +207,9 @@ export async function submitOrderToServer(
 
     return {
       ok: true,
-      orderId: fallbackOrderId,
+      orderId: shortOrderId,
       duplicate: false,
-      dataStatus: 'RECORDED_FALLBACK',
+      dataStatus: confirmedOrder.dataStatus,
       confirmedOrder,
       computedTotals: {
         product_total: localValidation.orderFields.product_total,
@@ -176,14 +220,19 @@ export async function submitOrderToServer(
       },
     };
   } catch {
-    const fallbackOrderId = generateServerOrderId(localValidation.submissionId);
+    // Network error reaching /api/orders -> send directly to Google Apps Script
+    const syncedDirect = await syncDirectlyToAppsScript(
+      localValidation.submissionId,
+      localValidation.orderFields
+    );
+
     const confirmedOrder: ConfirmedOrderRecord = {
-      orderId: fallbackOrderId,
+      orderId: shortOrderId,
       submissionId: localValidation.submissionId,
       createdAtIso: new Date().toISOString(),
       checkoutSource: payload.checkout_source || 'direct_modal',
       duplicate: false,
-      dataStatus: 'RECORDED_OFFLINE',
+      dataStatus: syncedDirect ? 'complete' : 'RECORDED_OFFLINE',
       orderFields: localValidation.orderFields,
       itemsSummary: localValidation.itemsSummary || [],
       totalStrips: localValidation.totalStrips || 30,
@@ -192,9 +241,9 @@ export async function submitOrderToServer(
 
     return {
       ok: true,
-      orderId: fallbackOrderId,
+      orderId: shortOrderId,
       duplicate: false,
-      dataStatus: 'RECORDED_OFFLINE',
+      dataStatus: confirmedOrder.dataStatus,
       confirmedOrder,
       computedTotals: {
         product_total: localValidation.orderFields.product_total,

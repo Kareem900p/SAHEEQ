@@ -4,6 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { createServer as createViteServer } from 'vite';
 import {
+  DEFAULT_SHAHEEQ_APPS_SCRIPT_URL,
   validateAndBuildOrderFields,
   buildAppsScriptPayload,
   evaluateAppsScriptResponse,
@@ -54,54 +55,68 @@ async function postOrderToAppsScript(
   payload: unknown,
   shortOrderId: string
 ): Promise<ParsedAppsScriptOutcome> {
-  try {
-    const response = await fetch(appsScriptUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify(payload),
-      redirect: 'follow',
-      signal: AbortSignal.timeout(12000),
-    });
+  const bodyStr = JSON.stringify(payload);
 
-    const rawText = await response.text();
-    let parsedJson: unknown = null;
+  for (let attempt = 1; attempt <= 2; attempt++) {
     try {
-      parsedJson = JSON.parse(rawText);
-    } catch {
+      const response = await fetch(appsScriptUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8',
+          Accept: 'application/json',
+        },
+        body: bodyStr,
+        redirect: 'follow',
+        signal: AbortSignal.timeout(14000),
+      });
+
+      const rawText = await response.text();
+      let parsedJson: unknown = null;
+      try {
+        parsedJson = JSON.parse(rawText);
+      } catch {
+        if (attempt < 2) continue;
+        return {
+          success: false,
+          orderId: shortOrderId,
+          duplicate: false,
+          dataStatus: 'RECORDED_FALLBACK',
+        };
+      }
+
+      const evaluated = evaluateAppsScriptResponse(parsedJson);
+      if (evaluated.success) {
+        return {
+          ...evaluated,
+          orderId: shortOrderId,
+          dataStatus: 'complete',
+        };
+      }
+
+      if (attempt < 2) continue;
       return {
-        success: true,
+        success: false,
+        orderId: shortOrderId,
+        duplicate: evaluated.duplicate,
+        dataStatus: 'RECORDED_SERVER',
+      };
+    } catch {
+      if (attempt < 2) continue;
+      return {
+        success: false,
         orderId: shortOrderId,
         duplicate: false,
-        dataStatus: 'RECORDED_FALLBACK',
+        dataStatus: 'RECORDED_OFFLINE_QUEUE',
       };
     }
-
-    const evaluated = evaluateAppsScriptResponse(parsedJson);
-    if (evaluated.success) {
-      return {
-        ...evaluated,
-        orderId: shortOrderId,
-      };
-    }
-
-    // Upstream returned ok:false (e.g. token mismatch in Apps Script properties) — preserve order seamlessly
-    return {
-      success: true,
-      orderId: shortOrderId,
-      duplicate: evaluated.duplicate,
-      dataStatus: 'RECORDED_SERVER',
-    };
-  } catch {
-    return {
-      success: true,
-      orderId: shortOrderId,
-      duplicate: false,
-      dataStatus: 'RECORDED_OFFLINE_QUEUE',
-    };
   }
+
+  return {
+    success: false,
+    orderId: shortOrderId,
+    duplicate: false,
+    dataStatus: 'RECORDED_OFFLINE_QUEUE',
+  };
 }
 
 async function startServer() {
@@ -150,11 +165,12 @@ async function startServer() {
 
       pruneCompletedCache();
 
-      // Check if this exact submission_id was already confirmed recently
+      // Check if this exact submission_id was already confirmed recently in Google Sheets
       const cached = completedSubmissions.get(submissionId);
       if (cached && cached.outcome.success) {
         res.status(200).json({
           ok: true,
+          apps_script_synced: true,
           order_id: cached.outcome.orderId,
           duplicate: true,
           data_status: cached.outcome.dataStatus,
@@ -172,41 +188,32 @@ async function startServer() {
         return;
       }
 
-      // Read server-side secrets at request time
-      const appsScriptUrl = process.env.SHAHEEQ_APPS_SCRIPT_URL?.trim() || '';
+      // Always resolve the Google Apps Script Web App URL (env var or configured SHAHEEQ endpoint)
+      const appsScriptUrl =
+        process.env.SHAHEEQ_APPS_SCRIPT_URL?.trim() || DEFAULT_SHAHEEQ_APPS_SCRIPT_URL;
       const apiSecret = process.env.SHAHEEQ_API_SECRET?.trim() || '';
 
-      let outcome: ParsedAppsScriptOutcome;
-
-      if (!appsScriptUrl || !apiSecret) {
-        outcome = {
-          success: true,
-          orderId: shortOrderId,
-          duplicate: false,
-          dataStatus: 'RECORDED_LOCAL',
-        };
-      } else {
-        // Deduplicate concurrent identical requests while in-flight
-        let pendingPromise = inFlightSubmissions.get(submissionId);
-        if (!pendingPromise) {
-          const payload = buildAppsScriptPayload(apiSecret, submissionId, orderFields);
-          pendingPromise = postOrderToAppsScript(appsScriptUrl, payload, shortOrderId).finally(
-            () => {
-              inFlightSubmissions.delete(submissionId);
-            }
-          );
-          inFlightSubmissions.set(submissionId, pendingPromise);
-        }
-        outcome = await pendingPromise;
+      // Deduplicate concurrent identical requests while in-flight
+      let pendingPromise = inFlightSubmissions.get(submissionId);
+      if (!pendingPromise) {
+        const payload = buildAppsScriptPayload(apiSecret, submissionId, orderFields);
+        pendingPromise = postOrderToAppsScript(appsScriptUrl, payload, shortOrderId).finally(() => {
+          inFlightSubmissions.delete(submissionId);
+        });
+        inFlightSubmissions.set(submissionId, pendingPromise);
       }
+      const outcome = await pendingPromise;
 
-      completedSubmissions.set(submissionId, {
-        outcome,
-        timestamp: Date.now(),
-      });
+      if (outcome.success) {
+        completedSubmissions.set(submissionId, {
+          outcome,
+          timestamp: Date.now(),
+        });
+      }
 
       res.status(200).json({
         ok: true,
+        apps_script_synced: outcome.success,
         order_id: outcome.orderId,
         duplicate: outcome.duplicate,
         data_status: outcome.dataStatus,
