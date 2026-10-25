@@ -38,6 +38,7 @@ import {
 import { trackConversionEvent } from '../utils/analytics';
 import type { GallerySlide } from '../data/brandConfig';
 import { BundleMiniPreview, GallerySlideVisual } from './ProductVisuals';
+import { GovernorateSelect } from './GovernorateSelect';
 
 interface ProductHeroProps {
   currentLanguage?: 'ar' | 'en';
@@ -940,19 +941,15 @@ export const ProductHero: React.FC<ProductHeroProps> = ({
                         ? `Governorate * (Free over ${freeShippingThreshold} EGP)`
                         : `المحافظة * (مجاني فوق ${freeShippingThreshold} ج.م)`}
                     </label>
-                    <select
+                    <GovernorateSelect
                       id="modal-governorate"
-                      name="governorate"
                       value={governorate}
-                      onChange={(e) => setGovernorate(e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg bg-[#01181E] border border-white/20 type-sm text-[#F4F3EF] focus:border-[#CEF90B] focus:outline-none"
-                    >
-                      {EGYPT_GOVERNORATES.map((gov) => (
-                        <option key={gov.ar} value={gov.ar}>
-                          {isEn ? gov.en : gov.ar}
-                        </option>
-                      ))}
-                    </select>
+                      onChange={(newGov) => setGovernorate(newGov)}
+                      isEn={isEn}
+                      isFreeShipping={calculatedShippingCost === 0}
+                      cairoFee={cairoShippingFee}
+                      otherGovFee={otherGovShippingFee}
+                    />
                   </div>
 
                   <div>

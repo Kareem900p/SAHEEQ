@@ -22,6 +22,7 @@ import {
   submitOrderToServer,
   type ConfirmedOrderRecord,
 } from '../utils/orderClient';
+import { GovernorateSelect } from './GovernorateSelect';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -411,22 +412,15 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     ? `Governorate * (Cairo ${cairoShippingFee} EGP • Other ${otherGovShippingFee} EGP)`
                     : `المحافظة * (القاهرة ${cairoShippingFee} ج.م • المحافظات ${otherGovShippingFee} ج.م)`}
                 </label>
-                <select
+                <GovernorateSelect
                   id="cod-city"
                   value={customerCity}
-                  onChange={(e) => setCustomerCity(e.target.value)}
-                  className="w-full h-11 px-3 rounded-lg bg-[#01181E] border border-white/20 type-sm focus:border-[#CEF90B] focus:outline-none"
-                >
-                  <option value="القاهرة">{isEn ? 'Cairo' : 'القاهرة'}</option>
-                  <option value="الجيزة">{isEn ? 'Giza' : 'الجيزة'}</option>
-                  <option value="الإسكندرية">{isEn ? 'Alexandria' : 'الإسكندرية'}</option>
-                  <option value="الدلتا والقناة">
-                    {isEn ? 'Delta & Canal' : 'الدلتا والقناة'}
-                  </option>
-                  <option value="الصعيد والبحر الأحمر">
-                    {isEn ? 'Upper Egypt & Red Sea' : 'الصعيد والبحر الأحمر'}
-                  </option>
-                </select>
+                  onChange={(newGov) => setCustomerCity(newGov)}
+                  isEn={isEn}
+                  isFreeShipping={activeShippingCost === 0}
+                  cairoFee={cairoShippingFee}
+                  otherGovFee={otherGovShippingFee}
+                />
               </div>
 
               <div>

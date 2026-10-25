@@ -35,6 +35,7 @@ import {
   calculateShippingByGovernorate,
 } from '../utils/ecommerceMath';
 import { PRODUCT_PACKAGES, INITIAL_BRAND_CONFIG } from '../data/brandConfig';
+import { GovernorateSelect } from './GovernorateSelect';
 
 interface ThankYouPageProps {
   order: ConfirmedOrderRecord;
@@ -812,18 +813,15 @@ export const ThankYouPage: React.FC<ThankYouPageProps> = ({
                   >
                     {isEn ? 'Governorate *' : 'المحافظة *'}
                   </label>
-                  <select
+                  <GovernorateSelect
                     id="ty-edit-gov"
                     value={editGovernorate}
-                    onChange={(e) => setEditGovernorate(e.target.value)}
-                    className="w-full h-11 px-3 rounded-lg bg-[#01181E] border border-white/20 type-sm text-[#F4F3EF] focus:border-[#CEF90B] focus:outline-none"
-                  >
-                    {EGYPT_GOVERNORATES.map((gov) => (
-                      <option key={gov.ar} value={gov.ar}>
-                        {isEn ? gov.en : gov.ar}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(newGov) => setEditGovernorate(newGov)}
+                    isEn={isEn}
+                    isFreeShipping={orderFields.delivery_fee === 0}
+                    cairoFee={INITIAL_BRAND_CONFIG.cairoShippingFee}
+                    otherGovFee={INITIAL_BRAND_CONFIG.otherGovShippingFee}
+                  />
                 </div>
 
                 <div>
