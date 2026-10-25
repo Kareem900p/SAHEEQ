@@ -13,6 +13,7 @@ import {
   PRODUCT_BENEFITS,
   ATHLETE_SLIDES,
   CUSTOMER_REVIEWS_DATA,
+  CELEBRITY_ENDORSEMENTS,
   type BrandConfigState,
 } from './data/brandConfig';
 import { FAQ_CATEGORIES } from './data/faqData';
@@ -33,6 +34,7 @@ import { AthleteCarousel } from './components/AthleteCarousel';
 import { ComparisonTable } from './components/ComparisonTable';
 import { VariantShowcase } from './components/VariantShowcase';
 import { CustomerReviews } from './components/CustomerReviews';
+import { CelebritiesTrustSection } from './components/CelebritiesTrustSection';
 import { FAQSection } from './components/FAQSection';
 import { SiteFooter } from './components/SiteFooter';
 import { CartDrawer, InfoPolicyModal } from './components/CartDrawer';
@@ -469,6 +471,13 @@ export default function App() {
               currentLanguage={currentLanguage}
             />
 
+            {/* SECTION 04B: Celebrities Trust Us Social Proof ("المشاهير يثقون بنا") */}
+            <CelebritiesTrustSection
+              items={CELEBRITY_ENDORSEMENTS}
+              currentLanguage={currentLanguage}
+              onShopNowClick={() => handleJumpToSection('product-hero')}
+            />
+
             {/* SECTION 05: 3-Step How It Works Funnel Section */}
             <AthleteCarousel
               slides={ATHLETE_SLIDES}
@@ -617,6 +626,13 @@ export default function App() {
                   className="min-h-[44px] flex items-center hover:text-[#CEF90B] transition-colors"
                 >
                   {isEn ? 'Benefits' : 'المميزات'}
+                </a>
+                <a
+                  href="#celebrities-section"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="min-h-[44px] flex items-center hover:text-[#CEF90B] transition-colors"
+                >
+                  {isEn ? 'Celebrities Trust Us' : 'المشاهير يثقون بنا'}
                 </a>
                 <a
                   href="#athletes-section"

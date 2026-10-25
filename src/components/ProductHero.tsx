@@ -331,11 +331,11 @@ export const ProductHero: React.FC<ProductHeroProps> = ({
               </button>
             </div>
 
-            {/* 4 Thumbnails Row (>= 44px touch target) */}
+            {/* 6 Thumbnails Row (>= 44px touch target) */}
             <div
               role="tablist"
               aria-label={isEn ? 'Product gallery thumbnails' : 'صور المنتج المصغرة'}
-              className="grid grid-cols-4 gap-3 mt-3"
+              className="grid grid-cols-6 gap-2 sm:gap-2.5 mt-3"
             >
               {gallerySlides.map((slide, idx) => {
                 const isSelected = idx === activeSlideIndex;

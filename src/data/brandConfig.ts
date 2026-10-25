@@ -301,6 +301,100 @@ export const GALLERY_SLIDES: GallerySlide[] = [
     renderType: 'athlete-female',
     referenceImageUrl: 'https://e.top4top.io/p_3948bozl01.jpg',
   },
+  {
+    id: 'slide-5',
+    titleAr: 'ثبات مريح على الأنف طوال اليوم',
+    titleEn: 'Comfortable All-Day Magnetic Fit',
+    subtitleAr: 'تصميم انسيابي خفيف يفتح مجرى الهواء بهدوء وبدون أي ضغط',
+    subtitleEn: 'Ergonomic magnetic bridge opens nasal airflow gently',
+    purposeAr: 'الصورة الخامسة: شكل الموسع أثناء الاستخدام اليومي',
+    imageUrl: '/assets/products/slide-5.jpg',
+    fallbackUrl: 'https://g.top4top.io/p_3950guv8v1.jpg',
+    fitMode: 'cover',
+    renderType: 'athlete-female',
+    referenceImageUrl: 'https://g.top4top.io/p_3950guv8v1.jpg',
+  },
+  {
+    id: 'slide-6',
+    titleAr: 'نوم عميق وهادئ بدون شخير',
+    titleEn: 'Deep, Quiet Sleep Without Snoring',
+    subtitleAr: 'ثبات ٢٤ ساعة حتى أثناء التقلب والنوم العميق طوال الليل',
+    subtitleEn: '24-hour magnetic hold through deep night sleep',
+    purposeAr: 'الصورة السادسة: استخدام شهيق أثناء النوم',
+    imageUrl: '/assets/products/slide-6.jpg',
+    fallbackUrl: 'https://f.top4top.io/p_3950wxouj1.jpg',
+    fitMode: 'cover',
+    renderType: 'athlete-male',
+    referenceImageUrl: 'https://f.top4top.io/p_3950wxouj1.jpg',
+  },
+];
+
+export interface CelebrityEndorsementItem {
+  id: string;
+  nameAr: string;
+  nameEn: string;
+  username: string;
+  roleAr: string;
+  roleEn: string;
+  quoteAr: string;
+  quoteEn: string;
+  imageUrl: string;
+  fallbackUrl: string;
+  shapeBgHex: string;
+  shapeBorderHex: string;
+  tagBgHex: string;
+  tagTextHex: string;
+}
+
+export const CELEBRITY_ENDORSEMENTS: CelebrityEndorsementItem[] = [
+  {
+    id: 'celeb-bahaa',
+    nameAr: 'بهاء حنيش',
+    nameEn: 'Bahaa Henish',
+    username: '@bahaa.henish',
+    roleAr: 'صانع محتوى',
+    roleEn: 'Content Creator',
+    quoteAr: 'بتتنفس 4K',
+    quoteEn: 'Breathing in 4K',
+    imageUrl: '/assets/celebrities/bahaa-henish.jpg',
+    fallbackUrl: 'https://d.top4top.io/p_395011o3a1.jpg',
+    shapeBgHex: '#DDFE01',
+    shapeBorderHex: '#CEF90B',
+    tagBgHex: '#01181E',
+    tagTextHex: '#DDFE01',
+  },
+  {
+    id: 'celeb-rizk',
+    nameAr: 'رزق رسلان',
+    nameEn: 'Dr. Rizk Raslan',
+    username: '@rizkraslan.med',
+    roleAr: 'صيدلي',
+    roleEn: 'Pharmacist',
+    quoteAr: 'تحسسك براحة وإنت شغال، بجد أنصح بيها.',
+    quoteEn: 'Makes you feel so comfortable while working, I truly recommend it.',
+    imageUrl: '/assets/celebrities/rizk-raslan.jpg',
+    fallbackUrl: 'https://c.top4top.io/p_3950jalka1.jpg',
+    shapeBgHex: '#6EE7B7',
+    shapeBorderHex: '#34D399',
+    tagBgHex: '#01181E',
+    tagTextHex: '#6EE7B7',
+  },
+  {
+    id: 'celeb-alaa',
+    nameAr: 'علاء غزي',
+    nameEn: 'Alaa Ghozy',
+    username: '@alaa_ghozy',
+    roleAr: 'صانع محتوى',
+    roleEn: 'Content Creator',
+    quoteAr: 'أخدتها معايا وأنا رايح الجيم.',
+    quoteEn: 'Took it with me on my way to the gym.',
+    imageUrl: '/assets/celebrities/alaa-ghozy.jpg',
+    fallbackUrl: 'https://b.top4top.io/p_3950dpx2i1.jpg',
+    shapeBgHex: '#7DD3FC',
+    shapeBorderHex: '#38BDF8',
+    tagBgHex: '#01181E',
+    tagTextHex: '#7DD3FC',
+  },
 ];
 
 export const PRODUCT_BENEFITS: BenefitItem[] = [
