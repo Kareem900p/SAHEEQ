@@ -196,8 +196,8 @@ export const AthleteCarousel: React.FC<AthleteCarouselProps> = ({
               </p>
               <p className="type-sm text-[#C2CFD4] mt-1">
                 {isEn
-                  ? '24-hour magnetic hold guarantee + Free shipping when you order 2+ packs.'
-                  : 'ضمان ثبات مغناطيسي ٢٤ ساعة • شحن مجاني عند طلب عبوتين أو أكثر.'}
+                  ? '24-hour magnetic hold guarantee • Delivery in 48 hours right to your door.'
+                  : 'ضمان ثبات مغناطيسي ٢٤ ساعة • توصيل في 48 ساعة لحد قدام بيتك.'}
               </p>
             </div>
           </div>

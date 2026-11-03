@@ -125,10 +125,10 @@ function resolvePackQuantityPricing(packCount: number) {
       packageNameAr: 'عبوة واحدة (30 يوم)',
       packageNameEn: '1 Pack (30 Days)',
       totalStrips: 30,
-      unitSalePrice: 320,
-      unitRegularPrice: 420,
-      lineSaleTotal: 320,
-      lineRegularTotal: 420,
+      unitSalePrice: 250,
+      unitRegularPrice: 320,
+      lineSaleTotal: 250,
+      lineRegularTotal: 320,
     };
   }
   if (safeCount === 2) {
@@ -138,10 +138,10 @@ function resolvePackQuantityPricing(packCount: number) {
       packageNameAr: 'عبوتين (60 يوم)',
       packageNameEn: '2 Packs (60 Days)',
       totalStrips: 60,
-      unitSalePrice: 595,
-      unitRegularPrice: 840,
-      lineSaleTotal: 595,
-      lineRegularTotal: 840,
+      unitSalePrice: 465,
+      unitRegularPrice: 640,
+      lineSaleTotal: 465,
+      lineRegularTotal: 640,
     };
   }
   if (safeCount === 3) {
@@ -151,22 +151,22 @@ function resolvePackQuantityPricing(packCount: number) {
       packageNameAr: '3 عبوات (90 يوم)',
       packageNameEn: '3 Packs (90 Days)',
       totalStrips: 90,
-      unitSalePrice: 820,
-      unitRegularPrice: 1260,
-      lineSaleTotal: 820,
-      lineRegularTotal: 1260,
+      unitSalePrice: 640,
+      unitRegularPrice: 960,
+      lineSaleTotal: 640,
+      lineRegularTotal: 960,
     };
   }
-  const lineSaleTotal = 320 * safeCount;
-  const lineRegularTotal = 420 * safeCount;
+  const lineSaleTotal = 250 * safeCount;
+  const lineRegularTotal = 320 * safeCount;
   return {
     packCount: safeCount,
     packageId: 'pkg-1',
     packageNameAr: `${safeCount} عبوات (${safeCount * 30} يوم)`,
     packageNameEn: `${safeCount} Packs (${safeCount * 30} Days)`,
     totalStrips: safeCount * 30,
-    unitSalePrice: 320,
-    unitRegularPrice: 420,
+    unitSalePrice: 250,
+    unitRegularPrice: 320,
     lineSaleTotal,
     lineRegularTotal,
   };
@@ -174,7 +174,6 @@ function resolvePackQuantityPricing(packCount: number) {
 
 function calculateShipping(subtotal: number, governorate: string): number {
   if (subtotal <= 0) return 0;
-  if (subtotal >= 500) return 0;
   const normalized = governorate.trim().toLowerCase();
   if (normalized === 'القاهرة' || normalized === 'cairo') {
     return 85;

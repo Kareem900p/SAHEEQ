@@ -217,8 +217,8 @@ export function resolvePackQuantityPricing(
   }
 
   // 4+ packs: revert to Bundle 1 price multiplied by safeCount
-  const baseSale = pkg1 ? pkg1.salePrice : 320;
-  const baseRegular = pkg1 ? pkg1.regularPrice : 420;
+  const baseSale = pkg1 ? pkg1.salePrice : 250;
+  const baseRegular = pkg1 ? pkg1.regularPrice : 320;
   const baseStrips = pkg1 ? pkg1.stripsCount : 30;
   const lineSaleTotal = baseSale * safeCount;
   const lineRegularTotal = baseRegular * safeCount;
@@ -264,7 +264,7 @@ export function packCountToCartItem(
 }
 
 /**
- * حساب أهلية الشحن المجاني والمبلغ المتبقي بدقة
+ * حساب أهلية الشحن المجاني والمبلغ المتبقي (عندما يكون threshold <= 0 يكون الشحن المجاني غير مفعل)
  */
 export function calculateFreeShippingProgress(
   subtotal: number,
@@ -276,7 +276,7 @@ export function calculateFreeShippingProgress(
   if (safeThreshold === 0) {
     return {
       threshold: 0,
-      isEligible: true,
+      isEligible: false,
       remainingAmount: 0,
       progressPercentage: 100,
     };
@@ -298,20 +298,19 @@ export function calculateFreeShippingProgress(
 }
 
 /**
- * حساب مصاريف الشحن حسب المحافظة:
- * - مجاني للطلبات >= 500 ج.م
+ * حساب مصاريف الشحن حسب المحافظة (توصيل في 48 ساعة لحد قدام بيتك بدون شحن مجاني):
  * - 85 ج.م للقاهرة
  * - 95 ج.م لباقي المحافظات
  */
 export function calculateShippingByGovernorate(
   subtotal: number,
   governorate: string,
-  freeShippingThreshold = 1000,
+  freeShippingThreshold = 0,
   cairoFee = 85,
   otherGovFee = 95
 ): number {
   if (subtotal <= 0) return 0;
-  if (subtotal >= freeShippingThreshold) return 0;
+  if (freeShippingThreshold > 0 && subtotal >= freeShippingThreshold) return 0;
   const normalized = governorate.trim().toLowerCase();
   if (normalized === 'القاهرة' || normalized === 'cairo') {
     return cairoFee;
@@ -322,10 +321,10 @@ export function calculateShippingByGovernorate(
 /**
  * حساب ملخص السلة الكامل من مصدر حقيقة واحد
  * يعامل عبوة الـ 30 قطعة والكمية كعنصر موحد:
- * 1 عبوة -> الباندل 1 (320 ج.م)
- * 2 عبوة -> الباندل 2 (595 ج.م)
- * 3 عبوات -> الباندل 3 (820 ج.م)
- * 4+ عبوات -> الباندل 1 × العدد (320 × N ج.م)
+ * 1 عبوة -> الباندل 1 (250 ج.م بدلاً من 320 ج.م)
+ * 2 عبوة -> الباندل 2 (465 ج.م بدلاً من 640 ج.م)
+ * 3 عبوات -> الباندل 3 (640 ج.م بدلاً من 960 ج.م)
+ * 4+ عبوات -> الباندل 1 × العدد (250 × N ج.م)
  */
 export function calculateCartSummary(
   cartItems: CartItemInput[],

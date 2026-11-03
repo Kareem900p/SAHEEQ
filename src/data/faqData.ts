@@ -63,12 +63,12 @@ export const FAQ_CATEGORIES: FAQCategoryGroup[] = [
     items: [
       {
         id: 'faq-price-and-shipping',
-        questionAr: 'كام مصاريف الشحن؟ وإمتى يكون مجاني؟',
-        questionEn: 'How much is shipping? When is it free?',
+        questionAr: 'كام مصاريف الشحن؟',
+        questionEn: 'How much is shipping?',
         answerAr:
-          'الشحن مجاني تماماً لأي طلب يتخطى 500 ج.م (زي عرض العبوتين أو الـ 3 عبوات). وللطلبات الأقل: 85 ج.م للقاهرة و95 ج.م للمحافظات.',
+          'مصاريف الشحن 85 ج.م للقاهرة و95 ج.م لباقي المحافظات، مع توصيل سريع في 48 ساعة لحد قدام بيتك.',
         answerEn:
-          'Shipping is 100% FREE on orders over 500 EGP (2-Pack or 3-Pack). Below 500 EGP: 85 EGP for Cairo and 95 EGP for other governorates.',
+          'Shipping is 85 EGP for Cairo and 95 EGP for other governorates, with fast 48-hour delivery right to your door.',
         verificationStatus: 'VERIFIED',
         sourceNoteAr: 'سياسة الشحن',
       },
@@ -77,9 +77,9 @@ export const FAQ_CATEGORIES: FAQCategoryGroup[] = [
         questionAr: 'الطلب بيوصل في قد إيه؟',
         questionEn: 'How fast is delivery?',
         answerAr:
-          'بيكون قدام بيتك خلال 48 ساعة، والدفع كاش عند الاستلام.',
+          'توصيل في 48 ساعة لحد قدام بيتك، والدفع كاش عند الاستلام.',
         answerEn:
-          'Your order arrives at your door within 48 hours with Cash on Delivery.',
+          'Delivery in 48 hours right to your door with Cash on Delivery.',
         verificationStatus: 'VERIFIED',
         sourceNoteAr: 'توصيل 48 ساعة',
       },

@@ -38,7 +38,7 @@ test('extractAlternatePhoneFromNotes extracts secondary phone if different from 
   assert.equal(extractAlternatePhoneFromNotes(noteWithSame, primary), '');
 });
 
-test('validateAndBuildOrderFields computes exact server-side financials for 1-Pack in Cairo (320 + 85 = 405 EGP, discount 100)', () => {
+test('validateAndBuildOrderFields computes exact server-side financials for 1-Pack in Cairo (250 + 85 = 335 EGP, discount 70)', () => {
   const res = validateAndBuildOrderFields({
     submission_id: 'sub_test_123456',
     customer_name: 'أحمد محمد علي',
@@ -62,18 +62,18 @@ test('validateAndBuildOrderFields computes exact server-side financials for 1-Pa
     'عبوة واحدة (30 يوم) (العبوة القياسية (4 مقاسات))'
   );
   assert.equal(res.orderFields.quantity, 1);
-  assert.equal(res.orderFields.product_total, 320);
+  assert.equal(res.orderFields.product_total, 250);
   assert.equal(res.orderFields.delivery_fee, 85);
-  assert.equal(res.orderFields.discount_amount, 100);
-  assert.equal(res.orderFields.customer_total, 405);
+  assert.equal(res.orderFields.discount_amount, 70);
+  assert.equal(res.orderFields.customer_total, 335);
   assert.equal(res.orderFields.payment_method, 'COD');
-  assert.equal(res.orderFields.cod_amount, 405);
+  assert.equal(res.orderFields.cod_amount, 335);
   assert.equal(res.totalStrips, 30);
   assert.equal(res.itemsSummary?.length, 1);
   assert.equal(res.itemsSummary?.[0].packageId, 'pkg-1');
 });
 
-test('validateAndBuildOrderFields computes free shipping for 2-Pack Best Offer in Alexandria (595 + 0 = 595 EGP, discount 245)', () => {
+test('validateAndBuildOrderFields computes 95 EGP shipping for 2-Pack Best Offer in Alexandria (465 + 95 = 560 EGP, discount 175)', () => {
   const res = validateAndBuildOrderFields({
     submission_id: 'sub_test_654321',
     customer_name: 'كريم محمود',
@@ -85,11 +85,11 @@ test('validateAndBuildOrderFields computes free shipping for 2-Pack Best Offer i
 
   assert.equal(res.valid, true);
   assert.ok(res.orderFields);
-  assert.equal(res.orderFields.product_total, 595);
-  assert.equal(res.orderFields.delivery_fee, 0);
-  assert.equal(res.orderFields.discount_amount, 245);
-  assert.equal(res.orderFields.customer_total, 595);
-  assert.equal(res.orderFields.cod_amount, 595);
+  assert.equal(res.orderFields.product_total, 465);
+  assert.equal(res.orderFields.delivery_fee, 95);
+  assert.equal(res.orderFields.discount_amount, 175);
+  assert.equal(res.orderFields.customer_total, 560);
+  assert.equal(res.orderFields.cod_amount, 560);
   assert.equal(res.totalStrips, 60);
 });
 
@@ -192,7 +192,7 @@ test('generateServerOrderId creates concise SHQ-DDMM-XXX order IDs using today d
   assert.equal(id3, 'SHQ-2410-321');
 });
 
-test('validateAndBuildOrderFields reverts to Bundle 1 price * 4 when quantity is 4 (320 * 4 = 1280 EGP)', () => {
+test('validateAndBuildOrderFields reverts to Bundle 1 price * 4 when quantity is 4 (250 * 4 = 1000 EGP + 85 EGP Cairo shipping = 1085 EGP)', () => {
   const res = validateAndBuildOrderFields({
     submission_id: 'sub_test_4packs',
     customer_name: 'محمود حسن',
@@ -205,10 +205,10 @@ test('validateAndBuildOrderFields reverts to Bundle 1 price * 4 when quantity is
   assert.equal(res.valid, true);
   assert.ok(res.orderFields);
   assert.equal(res.orderFields.quantity, 4);
-  assert.equal(res.orderFields.product_total, 1280);
-  assert.equal(res.orderFields.delivery_fee, 0);
-  assert.equal(res.orderFields.discount_amount, 400);
-  assert.equal(res.orderFields.customer_total, 1280);
-  assert.equal(res.orderFields.cod_amount, 1280);
+  assert.equal(res.orderFields.product_total, 1000);
+  assert.equal(res.orderFields.delivery_fee, 85);
+  assert.equal(res.orderFields.discount_amount, 280);
+  assert.equal(res.orderFields.customer_total, 1085);
+  assert.equal(res.orderFields.cod_amount, 1085);
   assert.equal(res.totalStrips, 120);
 });

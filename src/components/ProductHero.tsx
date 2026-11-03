@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Share2,
   Check,
@@ -15,6 +15,8 @@ import {
   CheckCircle2,
   ShoppingBag,
   Magnet,
+  Clock,
+  Flame,
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import {
@@ -157,6 +159,35 @@ export const ProductHero: React.FC<ProductHeroProps> = ({
   const isEn = currentLanguage === 'en';
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [copiedShare, setCopiedShare] = useState(false);
+
+  // 27-Hour Flash Offer Countdown Timer (27 hours = 97,200 seconds)
+  const [offerSecondsLeft, setOfferSecondsLeft] = useState<number>(() => {
+    try {
+      const savedEnd = window.sessionStorage.getItem('shaheeq_27h_offer_end');
+      if (savedEnd) {
+        const diff = Math.floor((Number(savedEnd) - Date.now()) / 1000);
+        if (diff > 0 && diff <= 27 * 3600) {
+          return diff;
+        }
+      }
+      const targetEnd = Date.now() + 27 * 3600 * 1000;
+      window.sessionStorage.setItem('shaheeq_27h_offer_end', String(targetEnd));
+    } catch {
+      // Ignore storage errors
+    }
+    return 27 * 3600;
+  });
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setOfferSecondsLeft((prev) => (prev > 0 ? prev - 1 : 27 * 3600));
+    }, 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const offerHours = String(Math.floor(offerSecondsLeft / 3600)).padStart(2, '0');
+  const offerMinutes = String(Math.floor((offerSecondsLeft % 3600) / 60)).padStart(2, '0');
+  const offerSeconds = String(offerSecondsLeft % 60).padStart(2, '0');
 
   // Popup Checkout Modal State
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
@@ -427,7 +458,44 @@ export const ProductHero: React.FC<ProductHeroProps> = ({
               </p>
             </div>
 
-            {/* BLOCK 2: 3 Minimal Bundle Cards (2-Pack = Best Offer + Free Shipping over 500 EGP) */}
+            {/* NEW 27-HOUR FLASH OFFER BANNER */}
+            <div
+              data-testid="offer-27h-countdown"
+              className="rounded-xl bg-gradient-to-r from-[#DDFE01]/20 via-[#032833] to-[#021E26] border border-[#DDFE01]/55 px-4 py-3 flex flex-wrap items-center justify-between gap-3 shadow-md"
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <span className="w-8 h-8 rounded-lg bg-[#DDFE01] text-[#01181E] flex items-center justify-center shrink-0 shadow-xs">
+                  <Flame className="w-4 h-4 fill-current" />
+                </span>
+                <div className="min-w-0">
+                  <div className="type-xs sm:type-sm font-extrabold text-[#DDFE01]">
+                    {isEn
+                      ? 'New Flash Offers — For 27 Hours Only!'
+                      : 'عروض جديدة لمدة 27 ساعة فقط!'}
+                  </div>
+                  <div className="type-xs text-[#F4F3EF] font-bold">
+                    {isEn
+                      ? 'Price dropped from 320 EGP to 250 EGP across all bundles'
+                      : 'نزلنا السعر من 320 ج.م إلى 250 ج.م وعروض خاصة على كل الباقات'}
+                  </div>
+                </div>
+              </div>
+
+              <div
+                dir="ltr"
+                aria-label={isEn ? '27-hour offer countdown' : 'عداد عرض الـ 27 ساعة'}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#01181E] border border-[#CEF90B]/45 text-[#CEF90B] type-xs font-extrabold tabular-nums shrink-0"
+              >
+                <Clock className="w-3.5 h-3.5 text-[#DDFE01] shrink-0" />
+                <span>{offerHours}h</span>
+                <span>:</span>
+                <span>{offerMinutes}m</span>
+                <span>:</span>
+                <span>{offerSeconds}s</span>
+              </div>
+            </div>
+
+            {/* BLOCK 2: 3 Minimal Bundle Cards (250 vs 320, 465 vs 640, 640 vs 960) */}
             <div
               className="pt-4 border-t border-white/12"
               role="radiogroup"
@@ -435,12 +503,12 @@ export const ProductHero: React.FC<ProductHeroProps> = ({
             >
               <div className="flex items-center justify-between mb-3">
                 <span className="type-sm font-extrabold text-[#F4F3EF]">
-                  {isEn ? 'Select Your Offer' : 'اختار عرضك'}
+                  {isEn ? 'Select Your 27h Offer' : 'اختار عرضك (لمدة 27 ساعة)'}
                 </span>
                 <span className="type-xs font-extrabold text-[#CEF90B]">
                   {isEn
-                    ? `Free shipping over ${freeShippingThreshold} EGP`
-                    : `شحن مجاني فوق ${freeShippingThreshold} ج.م`}
+                    ? 'Compare with old price (320 EGP/pack)'
+                    : 'مقارنة بالسعر القديم (320 ج.م للعبوة)'}
                 </span>
               </div>
 
@@ -452,7 +520,6 @@ export const ProductHero: React.FC<ProductHeroProps> = ({
                     pkg.salePrice,
                     1
                   );
-                  const qualifiesFreeShipping = pkg.salePrice >= freeShippingThreshold;
                   const badgeLabel = isEn ? pkg.badgeTextEn : pkg.badgeTextAr;
 
                   return (
@@ -517,19 +584,9 @@ export const ProductHero: React.FC<ProductHeroProps> = ({
                                 }`}
                               >
                                 {isEn
-                                  ? `Save ${pkgSavings} EGP`
-                                  : `وفّر ${pkgSavings} ج.م`}
+                                  ? `Save ${pkgSavings} EGP (was ${pkg.regularPrice} EGP)`
+                                  : `وفّر ${pkgSavings} ج.م (بدلاً من ${pkg.regularPrice} ج.م)`}
                               </span>
-
-                              {qualifiesFreeShipping && (
-                                <span
-                                  className={`type-xs font-extrabold inline-flex items-center gap-1 ${
-                                    isSelected ? 'text-[#085431]' : 'text-[#CEF90B]'
-                                  }`}
-                                >
-                                  • {isEn ? 'Free Shipping' : 'شحن مجاني'}
-                                </span>
-                              )}
                             </div>
                           </div>
                         </div>
@@ -559,7 +616,7 @@ export const ProductHero: React.FC<ProductHeroProps> = ({
               </div>
             </div>
 
-            {/* BLOCK 3: Persuasive 24-Hour Magnetic Guarantee + Fast Shipping Grid */}
+            {/* BLOCK 3: Persuasive 24-Hour Magnetic Guarantee + Fast 48h Shipping Grid */}
             <div
               data-testid="hero-guarantee-banner"
               className="rounded-xl bg-[#03232B] border border-[#CEF90B]/30 p-4 space-y-3"
@@ -587,8 +644,8 @@ export const ProductHero: React.FC<ProductHeroProps> = ({
                   <Truck className="w-4 h-4 text-[#CEF90B] shrink-0 animate-truck-glide" />
                   <span className="font-bold">
                     {isEn
-                      ? `48h Door Delivery • Free over ${freeShippingThreshold} EGP`
-                      : `توصيل 48 ساعة لباب البيت • مجاني فوق ${freeShippingThreshold} ج.م`}
+                      ? 'Delivery in 48 hours right to your door • Cash on Delivery'
+                      : 'توصيل في 48 ساعة لحد قدام بيتك • الدفع عند الاستلام'}
                   </span>
                 </div>
                 <button
@@ -864,19 +921,19 @@ export const ProductHero: React.FC<ProductHeroProps> = ({
                       <span className="text-[#CEF90B] font-bold">
                         {quantity === 1
                           ? isEn
-                            ? 'Add +1 pack to unlock the 2-Pack Best Offer (595 EGP + Free Shipping)'
-                            : 'زوّد +1 عبوة وادخل في عرض العبوتين (595 ج.م + شحن مجاني)'
+                            ? 'Add +1 pack to unlock the 2-Pack Best Offer (465 EGP instead of 640 EGP)'
+                            : 'زوّد +1 عبوة وادخل في عرض العبوتين (465 ج.م بدلاً من 640 ج.م)'
                           : quantity === 2
                           ? isEn
-                            ? 'Bundle 2 Active: Best Offer (595 EGP) + Free Shipping!'
-                            : 'عرض الباندل 2 مفعل: عبوتين بـ 595 ج.م + شحن مجاني!'
+                            ? 'Bundle 2 Active: Best Offer (465 EGP instead of 640 EGP)!'
+                            : 'عرض الباندل 2 مفعل: عبوتين بـ 465 ج.م بدلاً من 640 ج.م!'
                           : quantity === 3
                           ? isEn
-                            ? 'Bundle 3 Active: Max Savings (820 EGP) + Free Shipping!'
-                            : 'عرض الباندل 3 مفعل: 3 عبوات بـ 820 ج.م + شحن مجاني!'
+                            ? 'Bundle 3 Active: Max Savings (640 EGP instead of 960 EGP)!'
+                            : 'عرض الباندل 3 مفعل: 3 عبوات بـ 640 ج.م بدلاً من 960 ج.م!'
                           : isEn
-                          ? `${quantity} Packs × 320 EGP (Single Pack Price) + Free Shipping`
-                          : `${quantity} عبوات × 320 ج.م (سعر العبوة الواحدة) + شحن مجاني`}
+                          ? `${quantity} Packs × 250 EGP (27h Offer Single Pack Price)`
+                          : `${quantity} عبوات × 250 ج.م (سعر العبوة في عرض الـ 27 ساعة)`}
                       </span>
                       <div className="flex items-baseline gap-1.5 shrink-0 tabular-nums whitespace-nowrap">
                         <span
@@ -938,15 +995,15 @@ export const ProductHero: React.FC<ProductHeroProps> = ({
                       className="block type-xs font-bold text-[#F4F3EF] mb-1.5"
                     >
                       {isEn
-                        ? `Governorate * (Free over ${freeShippingThreshold} EGP)`
-                        : `المحافظة * (مجاني فوق ${freeShippingThreshold} ج.م)`}
+                        ? `Governorate * (Cairo ${cairoShippingFee} EGP • Other ${otherGovShippingFee} EGP)`
+                        : `المحافظة * (القاهرة ${cairoShippingFee} ج.م • المحافظات ${otherGovShippingFee} ج.م)`}
                     </label>
                     <GovernorateSelect
                       id="modal-governorate"
                       value={governorate}
                       onChange={(newGov) => setGovernorate(newGov)}
                       isEn={isEn}
-                      isFreeShipping={calculatedShippingCost === 0}
+                      isFreeShipping={false}
                       cairoFee={cairoShippingFee}
                       otherGovFee={otherGovShippingFee}
                     />

@@ -185,48 +185,21 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           </button>
         </div>
 
-        {/* Free Shipping Progress Bar inside Cart */}
+        {/* 48h Door Delivery & 27-Hour Offer Strip inside Cart */}
         {summary.items.length > 0 && checkoutStep !== 'confirmed' && (
           <div className="px-6 py-3 bg-[#042832] border-b border-white/10">
-            <div className="flex items-center justify-between type-xs mb-2">
-              <span className="inline-flex items-center gap-2 font-bold">
+            <div className="flex items-center justify-between type-xs">
+              <span className="inline-flex items-center gap-2 font-bold text-[#CEF90B]">
                 <Truck className="w-4 h-4 text-[#CEF90B]" />
-                {summary.shippingProgress.isEligible ? (
-                  <span className="text-[#CEF90B]">
-                    {isEn ? 'You unlocked free shipping!' : 'طلبك عليه شحن مجاني!'}
-                  </span>
-                ) : (
-                  <span>
-                    {isEn ? (
-                      <>
-                        Add{' '}
-                        <strong className="text-[#CEF90B] tabular-nums">
-                          {summary.shippingProgress.remainingAmount} EGP
-                        </strong>{' '}
-                        for free shipping
-                      </>
-                    ) : (
-                      <>
-                        باقي{' '}
-                        <strong className="text-[#CEF90B] tabular-nums">
-                          {summary.shippingProgress.remainingAmount} ج.م
-                        </strong>{' '}
-                        على الشحن المجاني
-                      </>
-                    )}
-                  </span>
-                )}
+                <span>
+                  {isEn
+                    ? 'Delivery in 48 hours right to your door'
+                    : 'توصيل في 48 ساعة لحد قدام بيتك'}
+                </span>
               </span>
-              <span className="tabular-nums text-[#C2CFD4] font-semibold">
-                {summary.shippingProgress.progressPercentage}%
+              <span className="px-2 py-0.5 rounded bg-[#DDFE01]/20 text-[#DDFE01] font-extrabold">
+                {isEn ? '27h Offer' : 'عرض 27 ساعة'}
               </span>
-            </div>
-
-            <div className="w-full h-2 rounded-full bg-[#01181E] overflow-hidden">
-              <div
-                className="h-full bg-[#DDFE01] transition-all duration-300"
-                style={{ width: `${summary.shippingProgress.progressPercentage}%` }}
-              />
             </div>
           </div>
         )}
@@ -417,7 +390,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   value={customerCity}
                   onChange={(newGov) => setCustomerCity(newGov)}
                   isEn={isEn}
-                  isFreeShipping={activeShippingCost === 0}
+                  isFreeShipping={false}
                   cairoFee={cairoShippingFee}
                   otherGovFee={otherGovShippingFee}
                 />
@@ -666,9 +639,8 @@ export const InfoPolicyModal: React.FC<InfoModalProps> = ({
           title: `Shipping Policy — ${brandNameEn}`,
           body: [
             `• Fast Delivery: ${deliveryEstimateEn}.`,
-            `• Free Shipping: 100% Free on orders over ${freeShippingThreshold} EGP (2-Pack Best Offer or 3-Pack).`,
-            `• Standard Shipping (below ${freeShippingThreshold} EGP): ${cairoShippingFee} EGP for Cairo, ${otherGovShippingFee} EGP for other governorates.`,
-            '• Cash on Delivery available across Egypt.',
+            `• Shipping Rates: ${cairoShippingFee} EGP for Cairo, ${otherGovShippingFee} EGP for other governorates.`,
+            '• Cash on Delivery available across all 27 governorates in Egypt.',
           ],
         },
         refund: {
@@ -705,9 +677,8 @@ export const InfoPolicyModal: React.FC<InfoModalProps> = ({
           title: `الشحن والتوصيل — ${brandNameAr}`,
           body: [
             `• التوصيل السريع: ${deliveryEstimateAr}.`,
-            `• الشحن المجاني: مجاناً تماماً للطلبات فوق ${freeShippingThreshold} ج.م (مثل عرض العبوتين أو 3 عبوات).`,
-            `• مصاريف الشحن (أقل من ${freeShippingThreshold} ج.م): ${cairoShippingFee} ج.م للقاهرة، و${otherGovShippingFee} ج.م لباقي المحافظات.`,
-            '• الدفع عند الاستلام متاح لجميع المحافظات.',
+            `• مصاريف الشحن: ${cairoShippingFee} ج.م للقاهرة، و${otherGovShippingFee} ج.م لباقي المحافظات.`,
+            '• الدفع عند الاستلام متاح لجميع محافظات مصر.',
           ],
         },
         refund: {

@@ -473,12 +473,12 @@ export const ThankYouPage: React.FC<ThankYouPageProps> = ({
               <div className="type-xs sm:type-sm font-extrabold text-[#F4F3EF]">
                 {currentPackCount === 1
                   ? isEn
-                    ? 'Want to increase quantity? Make it 2 Packs (595 EGP + Free Shipping)!'
-                    : 'عايز تزود الكمية؟ خليها عبوتين بـ 595 ج.م شامل الشحن المجاني!'
+                    ? 'Want to increase quantity? Make it 2 Packs (465 EGP instead of 640 EGP)!'
+                    : 'عايز تزود الكمية؟ خليها عبوتين بـ 465 ج.م بدلاً من 640 ج.م!'
                   : currentPackCount === 2
                   ? isEn
-                    ? 'Want maximum savings? Upgrade to 3 Packs (820 EGP + Free Shipping)!'
-                    : 'عايز التوفير الأقصى؟ خليها 3 عبوات بـ 820 ج.م شامل الشحن المجاني!'
+                    ? 'Want maximum savings? Upgrade to 3 Packs (640 EGP instead of 960 EGP)!'
+                    : 'عايز التوفير الأقصى؟ خليها 3 عبوات بـ 640 ج.م بدلاً من 960 ج.م!'
                   : isEn
                   ? 'Adjust your order pack quantity anytime before dispatch:'
                   : 'تقدر تعدّل عدد العبوات في طلبك مباشرة قبل خروج الشحنة:'}
@@ -545,11 +545,11 @@ export const ThankYouPage: React.FC<ThankYouPageProps> = ({
                   <span>
                     {currentPackCount === 1
                       ? isEn
-                        ? 'Upgrade to 2 Packs (595 EGP)'
-                        : 'ترقية لعبوتين (595 ج.م)'
+                        ? 'Upgrade to 2 Packs (465 EGP)'
+                        : 'ترقية لعبوتين (465 ج.م)'
                       : isEn
-                      ? 'Upgrade to 3 Packs (820 EGP)'
-                      : 'ترقية لـ 3 عبوات (820 ج.م)'}
+                      ? 'Upgrade to 3 Packs (640 EGP)'
+                      : 'ترقية لـ 3 عبوات (640 ج.م)'}
                   </span>
                 )}
               </button>
@@ -818,7 +818,7 @@ export const ThankYouPage: React.FC<ThankYouPageProps> = ({
                     value={editGovernorate}
                     onChange={(newGov) => setEditGovernorate(newGov)}
                     isEn={isEn}
-                    isFreeShipping={orderFields.delivery_fee === 0}
+                    isFreeShipping={false}
                     cairoFee={INITIAL_BRAND_CONFIG.cairoShippingFee}
                     otherGovFee={INITIAL_BRAND_CONFIG.otherGovShippingFee}
                   />
